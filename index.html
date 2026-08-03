@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Калькулятор коммерческого предложения</title>
+    <meta
+      name="description"
+      content="Калькулятор стоимости заказа с готовым текстом коммерческого предложения."
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section class="workspace" aria-label="Калькулятор коммерческого предложения">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">КП калькулятор</p>
+            <h1>Стоимость заказа и готовое предложение</h1>
+          </div>
+          <div class="status" id="saveStatus" aria-live="polite">Черновик сохранён</div>
+        </header>
+
+        <div class="layout">
+          <form class="panel form-panel" id="offerForm">
+            <section class="section">
+              <div class="section-head">
+                <h2>Данные предложения</h2>
+              </div>
+
+              <div class="grid two">
+                <label>
+                  <span>Клиент</span>
+                  <input id="clientName" name="clientName" type="text" placeholder="Например, Иван" />
+                </label>
+
+                <label>
+                  <span>Проект</span>
+                  <input
+                    id="projectName"
+                    name="projectName"
+                    type="text"
+                    placeholder="Например, запуск лендинга"
+                  />
+                </label>
+
+                <label>
+                  <span>Срок выполнения</span>
+                  <input id="deadline" name="deadline" type="text" placeholder="Например, 7 рабочих дней" />
+                </label>
+
+                <label>
+                  <span>Условия оплаты</span>
+                  <input
+                    id="paymentTerms"
+                    name="paymentTerms"
+                    type="text"
+                    placeholder="Например, 50% предоплата, 50% после сдачи"
+                  />
+                </label>
+              </div>
+
+              <div class="grid three">
+                <label>
+                  <span>Валюта</span>
+                  <select id="currency" name="currency">
+                    <option value="RUB">RUB ₽</option>
+                    <option value="USD">USD $</option>
+                    <option value="EUR">EUR €</option>
+                  </select>
+                </label>
+
+                <label>
+                  <span>Скидка</span>
+                  <input id="discount" name="discount" type="number" min="0" step="1" value="0" />
+                </label>
+
+                <label>
+                  <span>Наценка</span>
+                  <input id="markup" name="markup" type="number" min="0" step="1" value="0" />
+                </label>
+              </div>
+
+              <label>
+                <span>Комментарий</span>
+                <textarea
+                  id="note"
+                  name="note"
+                  rows="3"
+                  placeholder="Например, цена действует 5 дней, материалы предоставляются заказчиком"
+                ></textarea>
+              </label>
+            </section>
+
+            <section class="section">
+              <div class="section-head with-action">
+                <h2>Позиции заказа</h2>
+                <button class="secondary" id="addItem" type="button">Добавить позицию</button>
+              </div>
+
+              <div class="items" id="itemsList" aria-label="Список позиций"></div>
+            </section>
+          </form>
+
+          <aside class="panel result-panel" aria-label="Итог и готовый текст">
+            <section class="summary">
+              <h2>Итог</h2>
+              <div class="summary-line">
+                <span>Позиции</span>
+                <strong id="subtotalValue">0 ₽</strong>
+              </div>
+              <div class="summary-line">
+                <span>Скидка</span>
+                <strong id="discountValue">0 ₽</strong>
+              </div>
+              <div class="summary-line">
+                <span>Наценка</span>
+                <strong id="markupValue">0 ₽</strong>
+              </div>
+              <div class="summary-total">
+                <span>К оплате</span>
+                <strong id="totalValue">0 ₽</strong>
+              </div>
+            </section>
+
+            <section class="proposal">
+              <div class="section-head with-action">
+                <h2>Текст КП</h2>
+                <button class="primary" id="copyOffer" type="button">Скопировать</button>
+              </div>
+              <textarea id="proposalText" rows="16" aria-label="Готовый текст коммерческого предложения"></textarea>
+              <div class="actions">
+                <button class="secondary" id="regenerateOffer" type="button">Обновить текст</button>
+                <button class="secondary" id="copyTotal" type="button">Скопировать сумму</button>
+                <button class="danger" id="resetAll" type="button">Очистить</button>
+              </div>
+              <p class="hint" id="copyHint" aria-live="polite"></p>
+            </section>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <template id="itemTemplate">
+      <article class="item-row">
+        <label class="item-name">
+          <span>Позиция</span>
+          <input class="item-title" type="text" placeholder="Название работы или услуги" />
+        </label>
+        <label>
+          <span>Кол-во</span>
+          <input class="item-qty" type="number" min="0" step="1" value="1" />
+        </label>
+        <label>
+          <span>Цена</span>
+          <input class="item-price" type="number" min="0" step="100" value="0" />
+        </label>
+        <div class="item-sum">
+          <span>Сумма</span>
+          <strong>0 ₽</strong>
+        </div>
+        <button class="icon-button remove-item" type="button" aria-label="Удалить позицию">×</button>
+      </article>
+    </template>
+
+    <script src="script.js"></script>
+  </body>
+</html>
